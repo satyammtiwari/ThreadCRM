@@ -1,4 +1,4 @@
-/* ThreadCRM Auto Deployment Test */
+/* ThreadCRM Auto Deployment Test Mode */
 /* INIT */
 (async function(){
   const th=localStorage.getItem('tcrm_theme')||'dark';
