@@ -1,0 +1,30 @@
+/* responsive.css - extracted from original style.css. Do not edit style.css after migration. */
+
+
+/* ===== Original style.css lines 841-865 ===== */
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media (max-width: 1100px) {
+  .sg-primary  { grid-template-columns: repeat(2, 1fr); }
+  .sg-secondary { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 900px) {
+  :root { --sw: 52px; }
+  .sb-brand, .ni span:not(.nb), .sb-section-label, .tgt span:not(.tp) { display: none; }
+  .ni { justify-content: center; padding: 9px; }
+  .nb { position: absolute; top: 3px; right: 3px; min-width: 15px; padding: 0 3px; }
+  .sg-primary  { grid-template-columns: repeat(2, 1fr); }
+  .sg-secondary { grid-template-columns: repeat(3, 1fr); }
+  .dash-panels { grid-template-columns: 1fr; }
+  .dgr { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .sg-primary  { grid-template-columns: 1fr 1fr; }
+  .sg-secondary { grid-template-columns: 1fr 1fr; }
+  .fg2 { grid-template-columns: 1fr; }
+  .th-owner, .th-forum, .th-date, .th-cmt { display: none; }
+  .td-owner, .td-forum, .td-date, .td-cmt { display: none; }
+}
+

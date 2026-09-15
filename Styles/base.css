@@ -1,0 +1,380 @@
+/* base.css - extracted from original style.css. Do not edit style.css after migration. */
+
+
+/* ===== Original style.css lines 1-97 ===== */
+
+/* ═══════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════ */
+:root {
+  --font: 'Inter', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+  --r-sm: 4px;
+  --r-md: 6px;
+  --r-lg: 10px;
+  --r-xl: 14px;
+  --tr: .15s ease;
+  --sw: 220px;
+  --topbar-h: 52px;
+}
+
+[data-theme="dark"] {
+  --bg:       #0d1117;
+  --surface:  #161b22;
+  --raised:   #1c2128;
+  --overlay:  #22272e;
+  --border:   #30363d;
+  --border-s: #21262d;
+
+  --t1: #e6edf3;
+  --t2: #8b949e;
+  --t3: #484f58;
+
+  --ac:     #58a6ff;
+  --ac-bg:  rgba(88,166,255,.12);
+  --ac-glow:rgba(88,166,255,.28);
+
+  --ok:    #3fb950;  --ok-bg: rgba(63,185,80,.14);
+  --wn:    #d29922;  --wn-bg: rgba(210,153,34,.14);
+  --er:    #f85149;  --er-bg: rgba(248,81,73,.14);
+  --pu:    #bc8cff;  --pu-bg: rgba(188,140,255,.14);
+  --cy:    #39d0d8;  --cy-bg: rgba(57,208,216,.14);
+  --og:    #f0883e;  --og-bg: rgba(240,136,62,.14);
+
+  --sb-bg:        #010409;
+  --sb-border:    #21262d;
+  --sb-t1:        #e6edf3;
+  --sb-t2:        #8b949e;
+  --sb-t3:        #484f58;
+  --sb-hover:     rgba(177,186,196,.08);
+  --sb-active-bg: rgba(88,166,255,.15);
+  --sb-active-c:  #58a6ff;
+  --sb-active-bd: #58a6ff;
+}
+
+[data-theme="light"] {
+  --bg:       #f6f8fa;
+  --surface:  #ffffff;
+  --raised:   #f6f8fa;
+  --overlay:  #eaeef2;
+  --border:   #d0d7de;
+  --border-s: #e1e4e8;
+
+  --t1: #1f2328;
+  --t2: #57606a;
+  --t3: #8c959f;
+
+  --ac:     #0969da;
+  --ac-bg:  #ddf4ff;
+  --ac-glow:rgba(9,105,218,.22);
+
+  --ok:    #1a7f37;  --ok-bg: #dafbe1;
+  --wn:    #9a6700;  --wn-bg: #fff8c5;
+  --er:    #cf222e;  --er-bg: #ffebe9;
+  --pu:    #8250df;  --pu-bg: #fbefff;
+  --cy:    #0969da;  --cy-bg: #ddf4ff;
+  --og:    #bc4c00;  --og-bg: #fff1e5;
+
+  --sb-bg:        #24292f;
+  --sb-border:    #444c56;
+  --sb-t1:        #e6edf3;
+  --sb-t2:        #8b949e;
+  --sb-t3:        #545d68;
+  --sb-hover:     rgba(177,186,196,.1);
+  --sb-active-bg: rgba(88,166,255,.18);
+  --sb-active-c:  #58a6ff;
+  --sb-active-bd: #58a6ff;
+}
+
+/* ═══════════════════════════════════════
+   RESET
+═══════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 13px; -webkit-font-smoothing: antialiased; }
+body { font-family: var(--font); background: var(--bg); color: var(--t1); height: 100vh; display: flex; overflow: hidden; transition: background .3s, color .3s; }
+button { font-family: var(--font); cursor: pointer; border: none; background: none; }
+input, textarea, select { font-family: var(--font); }
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--t3); }
+#app { display: flex; width: 100vw; height: 100vh; }
+
+
+
+/* ===== Original style.css lines 721-743 ===== */
+
+/* ═══════════════════════════════════════
+   BADGES & PILLS
+═══════════════════════════════════════ */
+.stb { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 99px; font-size: 11.5px; font-weight: 600; white-space: nowrap; }
+.stb::before { content: ''; width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+.sO  { background: var(--cy-bg); color: var(--cy); }  .sO::before  { background: var(--cy); }
+.sI  { background: var(--wn-bg); color: var(--wn); }  .sI::before  { background: var(--wn); }
+.sC  { background: var(--ok-bg); color: var(--ok); }  .sC::before  { background: var(--ok); }
+
+.pri { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 99px; }
+.priC { background: var(--pu-bg); color: var(--pu); }
+.priH { background: var(--er-bg); color: var(--er); }
+.priM { background: var(--wn-bg); color: var(--wn); }
+.priL { background: var(--raised); color: var(--t3); border: 1px solid var(--border); }
+
+.fb2 { font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: var(--r-sm); background: var(--ac-bg); color: var(--ac); }
+
+.tg { display: inline-block; padding: 2px 7px; border-radius: 99px; font-size: 10.5px; font-weight: 600; background: var(--raised); color: var(--t2); border: 1px solid var(--border); }
+.tg.Client,     .tg-Client     { background: var(--cy-bg); color: var(--cy); border-color: transparent; }
+.tg.Internal,   .tg-Internal   { background: var(--ok-bg); color: var(--ok); border-color: transparent; }
+.tg.Urgent,     .tg-Urgent     { background: var(--er-bg); color: var(--er); border-color: transparent; }
+.tg.Escalation, .tg-Escalation { background: var(--pu-bg); color: var(--pu); border-color: transparent; }
+
+
+
+/* ===== Original style.css lines 4258-4504 ===== */
+
+/* ═══════════════════════════════════════
+   PHASE 4 — GLOBAL TYPOGRAPHY + VISUAL POLISH
+   CSS only — no functionality impact
+═══════════════════════════════════════ */
+
+:root{
+  --t1:#0f172a;
+  --t2:#334155;
+  --t3:#64748b;
+  --border:#dbe3ef;
+  --border-s:#edf2f7;
+}
+
+/* Global font rendering */
+body{
+  font-family:'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+  color:#0f172a;
+  letter-spacing:-0.01em;
+}
+
+/* Page headings */
+.page-title{
+  font-size:22px !important;
+  font-weight:800 !important;
+  letter-spacing:-0.04em !important;
+  color:#0f172a !important;
+}
+
+.page-sub{
+  font-size:12.5px !important;
+  color:#64748b !important;
+}
+
+/* Topbar */
+.tb-title{
+  font-size:15px !important;
+  font-weight:800 !important;
+  color:#0f172a !important;
+}
+
+/* Dashboard headings */
+.dash-card-title,
+.pn-title,
+.focus-title,
+.needs-title-main{
+  font-size:14px !important;
+  font-weight:800 !important;
+  color:#0f172a !important;
+  letter-spacing:-0.02em;
+}
+
+/* KPI / large numbers */
+.kpi-value,
+.progress-total,
+.focus-mini-value,
+.donut strong,
+.sv{
+  font-weight:850 !important;
+  letter-spacing:-0.055em !important;
+}
+
+/* Cards — subtle 3D */
+.dash-kpi,
+.dash-card,
+.pn,
+.sc,
+.tbl-wrap,
+.ic,
+.nc,
+.acc{
+  border-color:#dbe3ef !important;
+  box-shadow:
+    0 1px 2px rgba(15,23,42,.04),
+    0 8px 24px rgba(15,23,42,.06) !important;
+}
+
+.dash-kpi:hover,
+.dash-card:hover,
+.sc:hover{
+  transform:translateY(-3px);
+  box-shadow:
+    0 4px 10px rgba(15,23,42,.08),
+    0 14px 34px rgba(15,23,42,.10) !important;
+}
+
+/* Better contrast for labels */
+.kpi-label,
+.focus-mini-label,
+.owner-head,
+.forum-head,
+.tbl thead th{
+  color:#475569 !important;
+  font-weight:800 !important;
+}
+
+/* Better paragraph/readable text */
+.kpi-sub,
+.mini-label,
+.summary-sub,
+.need-sub-v2,
+.focus-tip,
+.progress-note{
+  color:#64748b !important;
+  line-height:1.45;
+}
+
+/* Inputs */
+#gs,
+.fi,
+.fss,
+.fta,
+.fsel{
+  border-color:#cbd5e1 !important;
+  background:#ffffff !important;
+}
+
+#gs:focus,
+.fi:focus,
+.fss:focus,
+.fta:focus,
+.fsel:focus{
+  border-color:#2563eb !important;
+  box-shadow:0 0 0 3px rgba(37,99,235,.12) !important;
+}
+
+/* Table readability */
+.tbl{
+  font-size:13px !important;
+}
+
+.ttitle{
+  font-size:13.5px !important;
+  font-weight:650 !important;
+  color:#0f172a !important;
+}
+
+.trow:hover{
+  background:#f8fafc !important;
+}
+
+/* Buttons */
+.btn{
+  font-weight:700 !important;
+  border-radius:8px !important;
+}
+
+.btn-primary{
+  background:linear-gradient(135deg,#2563eb,#4f46e5) !important;
+  box-shadow:0 6px 16px rgba(37,99,235,.24) !important;
+}
+
+/* Sidebar text contrast */
+#sidebar .ni{
+  font-weight:650 !important;
+}
+
+#sidebar .ni.active{
+  font-weight:800 !important;
+}
+/* PHASE 4B — STRONGER VISUAL DEPTH + BIGGER ICONS */
+
+/* App-wide 2D depth */
+.dash-kpi,
+.dash-card,
+.pn,
+.sc,
+.tbl-wrap,
+.ic,
+.nc,
+.acc,
+.md{
+  border:1px solid #d7e0ec !important;
+  box-shadow:
+    0 2px 5px rgba(15,23,42,.08),
+    0 12px 28px rgba(15,23,42,.08) !important;
+}
+
+/* Stronger hover depth */
+.dash-kpi:hover,
+.dash-card:hover,
+.sc:hover,
+.pn:hover{
+  transform:translateY(-3px);
+  box-shadow:
+    0 5px 12px rgba(15,23,42,.10),
+    0 18px 40px rgba(15,23,42,.14) !important;
+}
+
+/* Bigger KPI icons */
+.kpi-icon{
+  width:42px !important;
+  height:42px !important;
+  border-radius:14px !important;
+  box-shadow:0 6px 14px rgba(15,23,42,.10) !important;
+}
+
+.kpi-icon svg{
+  width:22px !important;
+  height:22px !important;
+  stroke-width:2.3 !important;
+}
+
+/* More premium KPI cards */
+.dash-kpi{
+  min-height:122px !important;
+  padding:18px 20px !important;
+  border-radius:14px !important;
+}
+
+/* Bigger KPI numbers */
+.kpi-value{
+  font-size:38px !important;
+}
+
+/* Better section/card headings */
+.dash-card-title{
+  font-size:15px !important;
+  font-weight:850 !important;
+}
+
+/* Softer page background contrast */
+#content{
+  background:#f7f9fc !important;
+}
+
+/* Button depth */
+.btn-primary{
+  box-shadow:
+    0 3px 8px rgba(37,99,235,.22),
+    0 10px 22px rgba(37,99,235,.18) !important;
+}
+
+.btn-ghost{
+  background:#ffffff !important;
+  border-color:#d7e0ec !important;
+  box-shadow:0 2px 6px rgba(15,23,42,.06) !important;
+}
+
+/* Search bar depth */
+#gs{
+  box-shadow:0 2px 8px rgba(15,23,42,.06) !important;
+}
+
+/* Sidebar active depth */
+#sidebar .ni.active{
+  box-shadow:0 4px 10px rgba(37,99,235,.12) !important;
+}

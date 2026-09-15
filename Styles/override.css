@@ -1,0 +1,28 @@
+/* ============================================================================
+   TEMP PATCH - RADAR REVIEW AGEING COLORS
+   Final CSS Home: styles/radar.css
+   Status: Testing
+   Purpose:
+   - Show ageing based on Next Review Date
+   - Red for overdue, green for upcoming, orange for today
+============================================================================ */
+
+.focus-topic-ageing.overdue{
+  color:#dc2626;
+  font-weight:800;
+}
+
+.focus-topic-ageing.upcoming{
+  color:#15803d;
+  font-weight:800;
+}
+
+.focus-topic-ageing.today{
+  color:#ea580c;
+  font-weight:800;
+}
+
+.focus-topic-ageing.closed{
+  color:#94a3b8;
+  font-weight:700;
+}

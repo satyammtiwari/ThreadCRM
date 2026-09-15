@@ -1,0 +1,1483 @@
+/* layout.css - extracted from original style.css. Do not edit style.css after migration. */
+
+
+/* ===== Original style.css lines 98-243 ===== */
+
+/* ═══════════════════════════════════════
+   SIDEBAR — always dark, GitHub style
+═══════════════════════════════════════ */
+#sidebar {
+  width: var(--sw); min-width: var(--sw);
+  background: var(--sb-bg);
+  border-right: 1px solid var(--sb-border);
+  display: flex; flex-direction: column;
+  z-index: 20;
+}
+.sb-logo {
+  display: flex; align-items: center; gap: 9px;
+  padding: 16px 16px 14px;
+  border-bottom: 1px solid var(--sb-border);
+}
+.sb-mark {
+  width: 28px; height: 28px;
+  background: var(--ac); border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; box-shadow: 0 0 12px var(--ac-glow);
+}
+.sb-mark svg { width: 15px; height: 15px; color: #fff; }
+.sb-brand { font-size: 14px; color: var(--sb-t1); letter-spacing: -.3px; }
+.sb-brand strong { font-weight: 700; }
+
+.sb-nav { flex: 1; padding: 10px 8px; overflow-y: auto; }
+.sb-section-label {
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 1px; text-transform: uppercase;
+  color: var(--sb-t3); padding: 10px 10px 5px;
+}
+.ni {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 10px; border-radius: var(--r-md);
+  cursor: pointer; font-size: 13px; font-weight: 500;
+  color: var(--sb-t2); margin-bottom: 1px;
+  border-left: 2px solid transparent;
+  transition: background var(--tr), color var(--tr), border-color var(--tr);
+  position: relative;
+}
+.ni svg { width: 14px; height: 14px; flex-shrink: 0; stroke-width: 2; }
+.ni:hover { background: var(--sb-hover); color: var(--sb-t1); }
+.ni.active {
+  background: var(--sb-active-bg);
+  color: var(--sb-active-c);
+  font-weight: 600;
+  border-left-color: var(--sb-active-bd);
+}
+.nb {
+  margin-left: auto; font-size: 10.5px; font-weight: 600;
+  color: var(--sb-t3); background: rgba(177,186,196,.1);
+  padding: 1px 6px; border-radius: 99px; min-width: 18px; text-align: center;
+}
+.ni.active .nb { background: rgba(88,166,255,.25); color: var(--sb-active-c); }
+
+.sb-footer { padding: 8px; border-top: 1px solid var(--sb-border); }
+.tgt {
+  display: flex; align-items: center; gap: 8px; padding: 7px 10px;
+  border-radius: var(--r-md); cursor: pointer;
+  font-size: 12.5px; color: var(--sb-t2);
+  transition: background var(--tr), color var(--tr);
+}
+.tgt:hover { background: var(--sb-hover); color: var(--sb-t1); }
+.tgt svg { width: 14px; height: 14px; flex-shrink: 0; }
+.tp {
+  margin-left: auto; width: 30px; height: 16px;
+  background: var(--sb-border); border-radius: 99px; position: relative;
+  transition: background var(--tr); flex-shrink: 0;
+}
+.tp::after {
+  content: ''; position: absolute; top: 2px; left: 2px;
+  width: 12px; height: 12px; background: #fff; border-radius: 50%;
+  transition: transform var(--tr);
+}
+[data-theme="light"] .tp { background: var(--ac); }
+[data-theme="light"] .tp::after { transform: translateX(14px); }
+
+/* ═══════════════════════════════════════
+   TOPBAR
+═══════════════════════════════════════ */
+#main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+#topbar {
+  height: var(--topbar-h);
+  display: flex; align-items: center; gap: 12px;
+  padding: 0 20px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.tb-left { display: flex; align-items: center; }
+.tb-title { font-size: 14px; font-weight: 600; color: var(--t1); white-space: nowrap; }
+.tb-search { flex: 1; max-width: 360px; position: relative; margin: 0 8px; }
+.tb-search svg {
+  position: absolute; left: 9px; top: 50%; transform: translateY(-50%);
+  width: 13px; height: 13px; color: var(--t3); pointer-events: none;
+}
+#gs {
+  width: 100%; padding: 6px 10px 6px 30px;
+  background: var(--raised); border: 1px solid var(--border);
+  border-radius: var(--r-lg); color: var(--t1); font-size: 12.5px; outline: none;
+  transition: border-color var(--tr), box-shadow var(--tr);
+}
+#gs:focus { border-color: var(--ac); box-shadow: 0 0 0 3px var(--ac-bg); }
+#gs::placeholder { color: var(--t3); }
+.tb-actions { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 6px 13px; border-radius: var(--r-md);
+  font-size: 12.5px; font-weight: 500; cursor: pointer;
+  transition: all var(--tr); border: 1px solid transparent; white-space: nowrap;
+}
+.btn svg { width: 13px; height: 13px; flex-shrink: 0; }
+.btn-primary { background: var(--ac); color: #fff; border-color: var(--ac); box-shadow: 0 1px 4px var(--ac-glow); }
+.btn-primary:hover { filter: brightness(1.1); }
+.btn-ghost { background: transparent; color: var(--t2); border-color: var(--border); }
+.btn-ghost:hover { background: var(--raised); color: var(--t1); border-color: var(--t3); }
+.btn-danger { color: var(--er) !important; }
+.btn-danger:hover { background: var(--er-bg) !important; border-color: var(--er) !important; }
+
+#content { flex: 1; overflow-y: auto; padding: 20px 22px; }
+.view { display: none; animation: fadeUp .2s ease; }
+.view.active { display: block; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
+
+/* ═══════════════════════════════════════
+   PAGE HEADER + QUICK FILTERS
+═══════════════════════════════════════ */
+.page-hd {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 18px; gap: 16px; flex-wrap: wrap;
+}
+.page-title { font-size: 18px; font-weight: 700; color: var(--t1); letter-spacing: -.4px; }
+.page-sub { font-size: 12px; color: var(--t3); margin-top: 2px; }
+
+.qfc { display: flex; gap: 6px; flex-wrap: wrap; }
+.qf {
+  padding: 5px 13px; border-radius: 99px;
+  font-size: 12px; font-weight: 500; cursor: pointer;
+  background: var(--surface); border: 1px solid var(--border); color: var(--t2);
+  transition: all var(--tr);
+}
+.qf:hover { border-color: var(--ac); color: var(--ac); background: var(--ac-bg); }
+.qf.active { background: var(--ac); border-color: var(--ac); color: #fff; box-shadow: 0 1px 6px var(--ac-glow); }
+
+
+
+/* ===== Original style.css lines 2930-4257 ===== */
+
+/* ═══════════════════════════════════════
+   SIDEBAR — MODERN LIGHT REDESIGN
+═══════════════════════════════════════ */
+
+#sidebar{
+  background:#f8fafc !important;
+  border-right:1px solid #e2e8f0 !important;
+}
+
+.sb-logo{
+  border-bottom:1px solid #e2e8f0 !important;
+}
+
+.sb-brand{
+  color:#0f172a !important;
+}
+
+.sb-section-label{
+  color:#94a3b8 !important;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1px;
+}
+
+.ni{
+  color:#475569 !important;
+  border-left:3px solid transparent !important;
+  border-radius:8px;
+  padding:8px 10px;
+}
+
+.ni:hover{
+  background:#eef2ff !important;
+  color:#2563eb !important;
+}
+
+.ni.active{
+  background:#eaf1ff !important;
+  color:#2563eb !important;
+  border-left-color:#2563eb !important;
+  font-weight:700;
+}
+
+.ni svg{
+  color:inherit !important;
+}
+
+.nb{
+  background:#e2e8f0 !important;
+  color:#64748b !important;
+  font-size:10.5px;
+  font-weight:700;
+}
+
+/* remove colored forum dots */
+.forum-dot{
+  display:none !important;
+}
+
+/* add thin line indicator for forum rows */
+#sb-forums .ni{
+  position:relative;
+  padding-left:18px;
+}
+
+#sb-forums .ni::before{
+  content:'';
+  position:absolute;
+  left:8px;
+  top:9px;
+  bottom:9px;
+  width:2px;
+  border-radius:99px;
+  background:#cbd5e1;
+}
+
+#sb-forums .ni.active::before{
+  background:#2563eb;
+}
+
+.sb-footer{
+  border-top:1px solid #e2e8f0 !important;
+}
+
+.tgt{
+  color:#475569 !important;
+}
+
+.tgt:hover{
+  background:#eef2ff !important;
+  color:#2563eb !important;
+}
+/* ═══════════════════════════════════════
+   SIDEBAR — PHASE 3B (COLORED FORUM UX)
+═══════════════════════════════════════ */
+
+/* Sidebar base */
+#sidebar{
+  background:#f8fafc;
+  border-right:1px solid #e2e8f0;
+}
+
+/* Section labels */
+.sb-section-label{
+  font-size:10px;
+  font-weight:800;
+  color:#94a3b8;
+  letter-spacing:.08em;
+  margin:16px 0 6px;
+}
+
+/* Nav items */
+.ni{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:8px 10px;
+  border-radius:8px;
+  color:#475569;
+  font-size:13px;
+  font-weight:500;
+  position:relative;
+  transition:all .15s ease;
+}
+
+/* Hover */
+.ni:hover{
+  background:#eef2ff;
+  color:#2563eb;
+}
+
+/* Active */
+.ni.active{
+  background:#eaf1ff;
+  color:#2563eb;
+  font-weight:600;
+}
+
+/* Active left indicator */
+.ni.active::before{
+  content:'';
+  position:absolute;
+  left:0;
+  top:6px;
+  bottom:6px;
+  width:3px;
+  border-radius:3px;
+  background:#2563eb;
+}
+
+/* Remove old dots */
+.forum-dot{
+  display:none !important;
+}
+
+/* Forum list styling */
+#sb-forums .ni{
+  padding-left:18px;
+}
+
+/* Colored forum indicators (match donut palette) */
+#sb-forums .ni::before{
+  content:'';
+  position:absolute;
+  left:8px;
+  top:8px;
+  bottom:8px;
+  width:2px;
+  border-radius:99px;
+  background:#cbd5e1;
+}
+
+/* Assign colors based on order (same as dashboard) */
+#sb-forums .ni:nth-child(1)::before{background:#2563eb;} /* blue */
+#sb-forums .ni:nth-child(2)::before{background:#f97316;} /* orange */
+#sb-forums .ni:nth-child(3)::before{background:#8b5cf6;} /* purple */
+#sb-forums .ni:nth-child(4)::before{background:#22c55e;} /* green */
+#sb-forums .ni:nth-child(5)::before{background:#06b6d4;} /* teal */
+
+/* Active forum stronger color */
+#sb-forums .ni.active::before{
+  width:3px;
+}
+
+/* Badge (count) redesign */
+.nb{
+  background:#e2e8f0;
+  color:#475569;
+  font-size:10.5px;
+  font-weight:700;
+  padding:2px 8px;
+  border-radius:999px;
+  min-width:22px;
+  text-align:center;
+}
+
+/* De-emphasize zero values */
+.nb:empty,
+.nb[data-zero="true"]{
+  opacity:.4;
+}
+
+/* Footer */
+.sb-footer{
+  border-top:1px solid #e2e8f0;
+}
+
+/* Toggle theme */
+.tgt{
+  color:#475569;
+}
+
+.tgt:hover{
+  background:#eef2ff;
+  color:#2563eb;
+}
+
+/* ═══════════════════════════════════════
+   SIDEBAR — ALIGNMENT + BADGE POLISH
+═══════════════════════════════════════ */
+
+#ni{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  padding:8px 12px;
+}
+
+.ni span{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.ni svg{
+  width:16px;
+  height:16px;
+  flex-shrink:0;
+}
+
+#sb-forums .ni{
+  padding:8px 12px 8px 18px;
+}
+
+#sb-forums .ni::before{
+  top:7px;
+  bottom:7px;
+}
+
+.nb{
+  background:#eef2f7;
+  color:#334155;
+  font-size:11px;
+  font-weight:700;
+  padding:2px 8px;
+  border-radius:999px;
+  min-width:24px;
+  text-align:center;
+}
+
+.nb:not([data-zero="true"]){
+  background:#e0e7ff;
+  color:#2563eb;
+}
+
+.nb[data-zero="true"]{
+  background:#f1f5f9;
+  color:#94a3b8;
+}
+/* SIDEBAR FINAL ALIGNMENT FIX */
+
+#sidebar .ni{
+  display:flex !important;
+  align-items:center !important;
+  gap:10px !important;
+  padding:8px 12px !important;
+  min-height:34px !important;
+}
+
+#sidebar .ni svg{
+  width:15px !important;
+  height:15px !important;
+  flex-shrink:0 !important;
+}
+
+/* Fix sidebar layout properly */
+#sidebar .ni{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+#sidebar .ni > span:first-child{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex:1; /* ONLY text container expands */
+  min-width:0;
+}
+
+#sidebar .ni > span:first-child span{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+#sidebar .nb{
+  margin-left:auto !important;
+  min-width:24px !important;
+  height:20px !important;
+  padding:2px 7px !important;
+  border-radius:999px !important;
+  background:#dbeafe !important;
+  color:#2563eb !important;
+  font-size:11px !important;
+  font-weight:700 !important;
+  line-height:16px !important;
+  text-align:center !important;
+}
+
+#sidebar .nb:empty{
+  display:none !important;
+}
+
+#sb-forums .ni{
+  padding-left:20px !important;
+}
+
+#sb-forums .ni::before{
+  content:'';
+  position:absolute;
+  left:8px;
+  top:9px;
+  bottom:9px;
+  width:2px;
+  border-radius:2px;
+}
+
+/* ═══════════════════════════════════════
+   SIDEBAR COLLAPSE — PHASE 3C
+═══════════════════════════════════════ */
+
+/* Default width */
+#sidebar{
+  width:220px;
+  transition:width .2s ease;
+}
+
+/* Collapsed state */
+#sidebar.collapsed{
+  width:64px;
+}
+
+/* Hide text when collapsed */
+#sidebar.collapsed .ni span:not(.nb),
+#sidebar.collapsed .sb-section-label,
+#sidebar.collapsed .sb-brand{
+  display:none !important;
+}
+
+/* Center icons in collapsed */
+#sidebar.collapsed .ni{
+  grid-template-columns:1fr !important;
+  justify-content:center;
+  padding:10px 0 !important;
+}
+
+/* Hide badges in collapsed */
+#sidebar.collapsed .nb{
+  display:none !important;
+}
+
+/* Toggle button */
+#sb-toggle{
+  margin-left:auto;
+  border:none;
+  background:transparent;
+  font-size:16px;
+  cursor:pointer;
+  color:#64748b;
+}
+
+#sb-toggle:hover{
+  color:#2563eb;
+}
+
+/* Smooth main content shift */
+#main{
+  transition:margin-left .2s ease;
+}
+/* SIDEBAR 3C — HEADER + NAV ALIGNMENT FIX */
+
+/* Logo row */
+.sb-logo{
+  display:flex !important;
+  align-items:center !important;
+  gap:10px !important;
+}
+
+.sb-brand{
+  flex:1 !important;
+  min-width:0 !important;
+}
+
+/* Collapse button */
+#sb-toggle{
+  width:28px !important;
+  height:28px !important;
+  min-width:28px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  margin-left:auto !important;
+  border-radius:8px !important;
+  color:#64748b !important;
+  background:transparent !important;
+}
+
+#sb-toggle:hover{
+  background:#eef2ff !important;
+  color:#2563eb !important;
+}
+
+/* Main nav item alignment */
+#sidebar .ni{
+  display:flex !important;
+  align-items:center !important;
+  gap:8px !important;
+  padding:8px 12px !important;
+  min-height:34px !important;
+}
+
+/* Icon */
+#sidebar .ni svg{
+  width:15px !important;
+  height:15px !important;
+  flex-shrink:0 !important;
+}
+
+/* Text */
+#sidebar .ni span:not(.nb){
+  flex:1 !important;
+  min-width:0 !important;
+  display:block !important;
+  white-space:nowrap !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+}
+
+/* Badge */
+#sidebar .nb{
+  margin-left:auto !important;
+  flex-shrink:0 !important;
+}
+
+/* Forum rows */
+#sb-forums .ni{
+  padding-left:22px !important;
+  position:relative !important;
+}
+
+#sb-forums .ni::before{
+  left:10px !important;
+  top:9px !important;
+  bottom:9px !important;
+  width:2px !important;
+}
+
+/* Stop old grid rules from affecting layout */
+#sidebar .ni,
+#sb-forums .ni{
+  grid-template-columns:none !important;
+}
+/* SIDEBAR LOGO + FORUM OVAL FIX */
+
+.sb-logo{
+  display:flex !important;
+  align-items:center !important;
+  gap:10px !important;
+  padding:14px 14px !important;
+}
+
+.sb-mark{
+  flex-shrink:0 !important;
+}
+
+.sb-brand{
+  flex:1 !important;
+  min-width:0 !important;
+  color:#0f172a !important;
+  white-space:nowrap !important;
+}
+
+#sb-toggle{
+  margin-left:auto !important;
+  width:28px !important;
+  height:28px !important;
+  min-width:28px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  border-radius:8px !important;
+  color:#64748b !important;
+  background:transparent !important;
+}
+
+/* hide old forum dot completely */
+#sb-forums .forum-dot{
+  display:none !important;
+  width:0 !important;
+  height:0 !important;
+}
+
+/* forum row alignment */
+#sb-forums .ni{
+  display:flex !important;
+  align-items:center !important;
+  gap:8px !important;
+  padding:8px 12px 8px 22px !important;
+  position:relative !important;
+}
+
+#sb-forums .ni::before{
+  content:'' !important;
+  position:absolute !important;
+  left:10px !important;
+  top:9px !important;
+  bottom:9px !important;
+  width:2px !important;
+  border-radius:99px !important;
+}
+
+/* forum label */
+#sb-forums .ni span:not(.nb):not(.forum-dot){
+  flex:1 !important;
+  min-width:0 !important;
+  white-space:nowrap !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+}
+
+/* badge alignment */
+#sb-forums .nb{
+  margin-left:auto !important;
+  flex-shrink:0 !important;
+}
+/* Sidebar forum row gap fix */
+#sb-forums .ni{
+  padding-left:16px !important;
+  gap:8px !important;
+}
+
+#sb-forums .ni::before{
+  left:6px !important;
+}
+
+#sb-forums .ni span:not(.nb):not(.forum-dot){
+  margin-left:0 !important;
+}
+/* FINAL FIX — remove forum row extra gap */
+#sb-forums .ni{
+  display:flex !important;
+  grid-template-columns:none !important;
+  align-items:center !important;
+  gap:6px !important;
+  padding:8px 12px 8px 16px !important;
+  position:relative !important;
+}
+
+#sb-forums .forum-dot{
+  display:none !important;
+  width:0 !important;
+  height:0 !important;
+  min-width:0 !important;
+  margin:0 !important;
+  padding:0 !important;
+}
+
+#sb-forums .ni::before{
+  content:'' !important;
+  position:absolute !important;
+  left:6px !important;
+  top:9px !important;
+  bottom:9px !important;
+  width:2px !important;
+  border-radius:99px !important;
+}
+
+#sb-forums .ni span:not(.nb):not(.forum-dot){
+  flex:1 !important;
+  margin-left:0 !important;
+  padding-left:0 !important;
+  min-width:0 !important;
+  white-space:nowrap !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+}
+
+#sb-forums .nb{
+  margin-left:auto !important;
+  flex-shrink:0 !important;
+}
+/* FORCE REMOVE forum-dot from layout */
+#sb-forums .forum-dot{
+  display:none !important;
+}
+
+/* FIX forum row layout properly */
+#sb-forums .ni{
+  display:flex !important;
+  align-items:center !important;
+  gap:8px !important;
+  padding:8px 12px 8px 14px !important;
+  position:relative !important;
+}
+
+/* FIX LEFT LINE POSITION */
+#sb-forums .ni::before{
+  content:'' !important;
+  position:absolute !important;
+  left:6px !important;
+  top:8px !important;
+  bottom:8px !important;
+  width:2px !important;
+  border-radius:2px !important;
+}
+
+/* FIX TEXT — THIS IS KEY */
+#sb-forums .ni > span:not(.nb){
+  flex:1 !important;
+  margin:0 !important;
+  padding:0 !important;
+}
+
+/* BADGE */
+#sb-forums .nb{
+  margin-left:auto !important;
+}
+
+/* Sidebar forum row final cleanup */
+#sb-forums .forum-ni{
+  padding-left:18px !important;
+}
+
+#sb-forums .forum-ni::before{
+  content:'' !important;
+  position:absolute !important;
+  left:8px !important;
+  top:9px !important;
+  bottom:9px !important;
+  width:2px !important;
+  border-radius:99px !important;
+}
+
+#sb-forums .forum-color-1::before{background:#2563eb !important;}
+#sb-forums .forum-color-2::before{background:#f97316 !important;}
+#sb-forums .forum-color-3::before{background:#8b5cf6 !important;}
+#sb-forums .forum-color-4::before{background:#22c55e !important;}
+#sb-forums .forum-color-5::before{background:#06b6d4 !important;}
+
+/* ═══════════════════════════════════════
+   SIDEBAR COLLAPSE — FINAL IMPLEMENTATION
+═══════════════════════════════════════ */
+
+#sidebar{
+  width:220px;
+  transition:width .2s ease;
+}
+
+/* COLLAPSED */
+#sidebar.collapsed{
+  width:64px;
+}
+
+/* Hide text */
+#sidebar.collapsed .ni span:not(.nb),
+#sidebar.collapsed .sb-section-label,
+#sidebar.collapsed .sb-brand{
+  display:none !important;
+}
+
+/* Center icons */
+#sidebar.collapsed .ni{
+  justify-content:center !important;
+  padding:10px 0 !important;
+}
+
+/* Hide badges */
+#sidebar.collapsed .nb{
+  display:none !important;
+}
+
+/* Keep forum color line visible */
+#sidebar.collapsed #sb-forums .ni::before{
+  left:50% !important;
+  transform:translateX(-50%);
+}
+/* ═══════════════════════════════════════
+   COLLAPSED SIDEBAR — FIXED UI
+═══════════════════════════════════════ */
+
+#sidebar.collapsed{
+  width:64px;
+}
+
+/* Center nav items properly */
+#sidebar.collapsed .ni{
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+  height:40px !important;
+  padding:0 !important;
+}
+
+/* Keep only icons visible */
+#sidebar.collapsed .ni svg{
+  width:18px !important;
+  height:18px !important;
+}
+
+/* Hide all text */
+#sidebar.collapsed .ni span:not(.nb),
+#sidebar.collapsed .sb-section-label,
+#sidebar.collapsed .sb-brand{
+  display:none !important;
+}
+
+/* Hide badges */
+#sidebar.collapsed .nb{
+  display:none !important;
+}
+
+/* Fix active item */
+#sidebar.collapsed .ni.active{
+  background:#e8f0ff !important;
+  border-radius:10px !important;
+  width:40px;
+  margin:auto;
+}
+
+/* Fix forum rows */
+#sidebar.collapsed #sb-forums .ni{
+  height:28px !important;
+}
+
+/* Center forum color lines */
+#sidebar.collapsed #sb-forums .ni::before{
+  left:50% !important;
+  transform:translateX(-50%);
+  width:3px !important;
+}
+
+/* Fix logo row */
+#sidebar.collapsed .sb-logo{
+  justify-content:center !important;
+}
+
+#sidebar.collapsed .sb-mark{
+  margin:auto;
+}
+
+/* Hide toggle label spacing issues */
+#sidebar.collapsed #sb-toggle{
+  position:absolute;
+  right:8px;
+  top:12px;
+}
+
+#sidebar{
+  width:220px !important;
+}
+
+#sidebar.collapsed{
+  width:64px !important;
+}
+/* ═══════════════════════════════════════
+   COLLAPSED SIDEBAR — FINAL FIXED VERSION
+═══════════════════════════════════════ */
+
+#sidebar.collapsed{
+  width:64px !important;
+}
+
+/* NAV ITEMS */
+#sidebar.collapsed .ni{
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+  height:42px !important;
+  padding:0 !important;
+}
+
+/* ICON SIZE */
+#sidebar.collapsed .ni svg{
+  width:18px !important;
+  height:18px !important;
+}
+
+/* HIDE TEXT */
+#sidebar.collapsed .ni span:not(.nb),
+#sidebar.collapsed .sb-section-label,
+#sidebar.collapsed .sb-brand{
+  display:none !important;
+}
+
+/* HIDE BADGE */
+#sidebar.collapsed .nb{
+  display:none !important;
+}
+
+/* ACTIVE ITEM */
+#sidebar.collapsed .ni.active{
+  background:#e8f0ff !important;
+  border-radius:10px !important;
+  width:42px !important;
+  height:42px !important;
+  margin:6px auto !important;
+}
+
+/* FORUM ROWS */
+#sidebar.collapsed #sb-forums .ni{
+  height:26px !important;
+}
+
+/* CENTER COLOR LINE */
+#sidebar.collapsed #sb-forums .ni::before{
+  left:50% !important;
+  transform:translateX(-50%) !important;
+  width:3px !important;
+}
+
+/* LOGO */
+#sidebar.collapsed .sb-logo{
+  justify-content:center !important;
+}
+
+/* TOGGLE BUTTON POSITION */
+#sidebar.collapsed #sb-toggle{
+  position:absolute !important;
+  top:10px;
+  right:8px;
+}
+/* FINAL SIDEBAR COLLAPSE OVERRIDE */
+
+#sidebar{
+  width:220px !important;
+  min-width:220px !important;
+  max-width:220px !important;
+  flex:0 0 220px !important;
+}
+
+#sidebar.collapsed{
+  width:64px !important;
+  min-width:64px !important;
+  max-width:64px !important;
+  flex:0 0 64px !important;
+}
+
+#sidebar.collapsed .sb-brand,
+#sidebar.collapsed .sb-section-label,
+#sidebar.collapsed .ni span:not(.nb),
+#sidebar.collapsed .nb,
+#sidebar.collapsed .tgt span{
+  display:none !important;
+}
+
+#sidebar.collapsed .sb-logo{
+  justify-content:center !important;
+  padding:14px 8px !important;
+  position:relative !important;
+}
+
+#sidebar.collapsed #sb-toggle{
+  position:absolute !important;
+  right:4px !important;
+  top:14px !important;
+  width:18px !important;
+  height:18px !important;
+  min-width:18px !important;
+  font-size:12px !important;
+}
+
+#sidebar.collapsed .sb-nav{
+  padding:10px 6px !important;
+}
+
+#sidebar.collapsed .ni{
+  width:40px !important;
+  height:40px !important;
+  padding:0 !important;
+  margin:4px auto !important;
+  justify-content:center !important;
+  align-items:center !important;
+}
+
+#sidebar.collapsed .ni svg{
+  width:17px !important;
+  height:17px !important;
+}
+
+#sidebar.collapsed #sb-forums .forum-ni{
+  width:40px !important;
+  height:24px !important;
+  padding:0 !important;
+  margin:4px auto !important;
+}
+
+#sidebar.collapsed #sb-forums .forum-ni::before{
+  left:50% !important;
+  transform:translateX(-50%) !important;
+  top:4px !important;
+  bottom:4px !important;
+  width:3px !important;
+}
+
+#sidebar.collapsed .sb-footer{
+  padding:8px 6px !important;
+}
+
+#sidebar.collapsed .tgt{
+  justify-content:center !important;
+  padding:8px 0 !important;
+}
+
+#sidebar.collapsed .tp{
+  display:none !important;
+}
+/* COLLAPSED SIDEBAR MEANINGFUL CLEANUP */
+
+/* Hide forum rows when collapsed */
+#sidebar.collapsed #sb-forums{
+  display:none !important;
+}
+
+/* Keep main icons clean */
+#sidebar.collapsed .ni{
+  border-left:none !important;
+}
+
+#sidebar.collapsed .ni.active{
+  border-left:3px solid #2563eb !important;
+}
+
+/* Move toggle so it does not overlap logo */
+#sidebar.collapsed #sb-toggle{
+  right:-10px !important;
+  top:18px !important;
+  width:22px !important;
+  height:22px !important;
+  min-width:22px !important;
+  background:#ffffff !important;
+  border:1px solid #e2e8f0 !important;
+  border-radius:999px !important;
+  box-shadow:0 4px 10px rgba(15,23,42,.12) !important;
+  z-index:50 !important;
+}
+
+/* Logo remains centered */
+#sidebar.collapsed .sb-logo{
+  padding:16px 8px !important;
+}
+/* Collapsed sidebar toggle final position */
+#sidebar.collapsed #sb-toggle{
+  right:-11px !important;
+  top:28px !important;
+}
+/* Sidebar collapse button clean placement */
+.sb-collapse-btn{
+  width:28px !important;
+  height:28px !important;
+  margin:8px auto 4px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  border-radius:8px !important;
+  color:#64748b !important;
+  background:#ffffff !important;
+  border:1px solid #e2e8f0 !important;
+  box-shadow:0 2px 6px rgba(15,23,42,.06) !important;
+}
+
+.sb-collapse-btn:hover{
+  color:#2563eb !important;
+  background:#eef2ff !important;
+}
+
+#sidebar.collapsed .sb-collapse-btn{
+  margin:8px auto 8px !important;
+  position:static !important;
+}
+
+/* FINAL CLEAN SIDEBAR TOGGLE POSITION */
+
+.sb-collapse-btn{
+  position:static !important;
+  width:28px !important;
+  height:28px !important;
+  min-width:28px !important;
+  margin:8px auto 6px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  border-radius:8px !important;
+  color:#64748b !important;
+  background:#ffffff !important;
+  border:1px solid #e2e8f0 !important;
+  box-shadow:0 2px 6px rgba(15,23,42,.06) !important;
+  font-size:14px !important;
+  z-index:1 !important;
+}
+
+#sidebar.collapsed .sb-collapse-btn{
+  position:static !important;
+  margin:8px auto 10px !important;
+  width:28px !important;
+  height:28px !important;
+  min-width:28px !important;
+}
+
+#sidebar.collapsed .sb-logo{
+  padding:16px 8px 10px !important;
+  justify-content:center !important;
+}
+
+#sidebar.collapsed #sb-toggle{
+  position:static !important;
+  right:auto !important;
+  top:auto !important;
+}
+/* CLEAN MINIMAL TOGGLE */
+
+.sb-collapse-btn{
+  width:26px !important;
+  height:26px !important;
+  margin:10px 0 6px 12px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  border-radius:6px !important;
+  color:#64748b !important;
+  background:transparent !important;
+  border:none !important;
+  box-shadow:none !important;
+  font-size:14px !important;
+  cursor:pointer;
+}
+
+.sb-collapse-btn:hover{
+  background:#eef2ff !important;
+  color:#2563eb !important;
+}
+
+/* COLLAPSED STATE */
+
+#sidebar.collapsed .sb-collapse-btn{
+  margin:10px auto 6px !important;
+}
+#sidebar{
+  background: linear-gradient(180deg,#f8fafc 0%,#eef2ff 100%);
+}
+/* FINAL COLLAPSED SIDEBAR — MINIMAL REFERENCE STYLE */
+
+#sidebar.collapsed{
+  width:56px !important;
+  min-width:56px !important;
+  max-width:56px !important;
+  flex:0 0 56px !important;
+  background:linear-gradient(180deg,#f8faff 0%,#f1f0ff 100%) !important;
+  border-right:1px solid #e5e7eb !important;
+  box-shadow:none !important;
+}
+
+/* logo */
+#sidebar.collapsed .sb-logo{
+  height:58px !important;
+  padding:12px 0 !important;
+  justify-content:center !important;
+  border-bottom:none !important;
+}
+
+#sidebar.collapsed .sb-mark{
+  width:28px !important;
+  height:28px !important;
+  border-radius:7px !important;
+  margin:0 auto !important;
+  background:linear-gradient(135deg,#4f46e5,#2563eb) !important;
+}
+
+#sidebar.collapsed .sb-brand{
+  display:none !important;
+}
+
+/* collapse button */
+#sidebar.collapsed .sb-collapse-btn{
+  width:26px !important;
+  height:26px !important;
+  margin:10px auto 22px !important;
+  border-radius:7px !important;
+  background:#ffffff !important;
+  border:1px solid #e2e8f0 !important;
+  color:#475569 !important;
+  box-shadow:0 4px 10px rgba(15,23,42,.08) !important;
+  font-size:13px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+
+/* nav wrapper */
+#sidebar.collapsed .sb-nav{
+  padding:0 !important;
+  overflow:hidden !important;
+}
+
+/* hide labels/sections/forums/badges */
+#sidebar.collapsed .sb-section-label,
+#sidebar.collapsed .ni span,
+#sidebar.collapsed .nb,
+#sidebar.collapsed #sb-forums{
+  display:none !important;
+}
+
+/* main icons */
+#sidebar.collapsed .ni{
+  width:38px !important;
+  height:38px !important;
+  padding:0 !important;
+  margin:10px auto !important;
+  border-radius:11px !important;
+  border-left:none !important;
+  background:transparent !important;
+  color:#334155 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+
+#sidebar.collapsed .ni svg{
+  width:17px !important;
+  height:17px !important;
+}
+
+/* active icon */
+#sidebar.collapsed .ni.active{
+  background:#ede9fe !important;
+  color:#2563eb !important;
+}
+
+/* footer */
+#sidebar.collapsed .sb-footer{
+  margin-top:auto !important;
+  padding:14px 0 !important;
+  border-top:1px solid #e5e7eb !important;
+}
+
+#sidebar.collapsed .tgt{
+  width:38px !important;
+  height:38px !important;
+  padding:0 !important;
+  margin:0 auto !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  background:transparent !important;
+}
+
+#sidebar.collapsed .tgt span,
+#sidebar.collapsed .tp{
+  display:none !important;
+}
+
+#sidebar.collapsed .tgt svg{
+  width:18px !important;
+  height:18px !important;
+  color:#334155 !important;
+}
+/* MODERN FLOATING TOGGLE */
+
+.sb-toggle-modern{
+  position:absolute;
+  top:20px;
+  right:-12px;
+
+  width:28px;
+  height:28px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:#ffffff;
+  border:1px solid #e2e8f0;
+  border-radius:999px;
+
+  box-shadow:0 6px 14px rgba(15,23,42,.15);
+  cursor:pointer;
+  z-index:50;
+
+  transition:all .2s ease;
+}
+
+.sb-toggle-modern svg{
+  width:14px;
+  height:14px;
+  stroke:#334155;
+  stroke-width:2;
+  fill:none;
+}
+
+/* Hover */
+.sb-toggle-modern:hover{
+  background:#eef2ff;
+  transform:scale(1.05);
+}
+
+.sb-toggle-modern:hover svg{
+  stroke:#2563eb;
+}
+
+/* Rotate when collapsed */
+#sidebar.collapsed .sb-toggle-modern svg{
+  transform:rotate(180deg);
+}
+
+/* Smooth animation */
+.sb-toggle-modern svg{
+  transition:transform .2s ease;
+}
+/* Fix floating toggle visibility in expanded + collapsed sidebar */
+
+#sidebar{
+  position:relative !important;
+  overflow:visible !important;
+}
+
+.sb-toggle-modern{
+  position:absolute !important;
+  top:22px !important;
+  right:-13px !important;
+  width:28px !important;
+  height:28px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  background:#ffffff !important;
+  border:1px solid #e2e8f0 !important;
+  border-radius:999px !important;
+  box-shadow:0 6px 14px rgba(15,23,42,.15) !important;
+  cursor:pointer !important;
+  z-index:999 !important;
+}
+
+.sb-toggle-modern svg{
+  width:14px !important;
+  height:14px !important;
+  stroke:#334155 !important;
+  stroke-width:2 !important;
+  fill:none !important;
+  transition:transform .2s ease !important;
+}
+
+.sb-toggle-modern:hover{
+  background:#eef2ff !important;
+}
+
+.sb-toggle-modern:hover svg{
+  stroke:#2563eb !important;
+}
+
+#sidebar.collapsed .sb-toggle-modern{
+  right:-13px !important;
+}
+
+#sidebar.collapsed .sb-toggle-modern svg{
+  transform:rotate(180deg) !important;
+}
+.sb-toggle-modern{
+  position:absolute !important;
+
+  top:72px !important;   /* 👈 THIS IS THE KEY FIX */
+  right:-13px !important;
+
+  width:28px !important;
+  height:28px !important;
+
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  background:#ffffff !important;
+  border:1px solid #e2e8f0 !important;
+  border-radius:999px !important;
+
+  box-shadow:0 6px 14px rgba(15,23,42,.15) !important;
+  cursor:pointer !important;
+  z-index:999 !important;
+}
+/* FIX CLICK AREA FOR ICONS */
+
+#sidebar.collapsed .ni{
+  width:40px !important;
+  height:40px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  margin:10px auto !important;
+  cursor:pointer !important;
+  pointer-events:auto !important;
+}
+
+/* Ensure svg is clickable */
+#sidebar.collapsed .ni svg{
+  pointer-events:none;
+}
+/* BETTER ICON SPACING */
+
+#sidebar.collapsed .sb-nav{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:14px; /* 👈 KEY LINE */
+  padding-top:10px !important;
+}
+
+#sidebar.collapsed .ni{
+  margin:0 !important;
+}

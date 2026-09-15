@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ThreadCRM — Team Discussion Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="Styles/base.css">
+<link rel="stylesheet" href="Styles/layout.css">
+<link rel="stylesheet" href="Styles/modal.css">
+<link rel="stylesheet" href="Styles/thread.css">
+<link rel="stylesheet" href="Styles/radar.css">
+<link rel="stylesheet" href="Styles/dashboard.css">
+<link rel="stylesheet" href="Styles/override.css">
+<link rel="stylesheet" href="Styles/responsive.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+<div id="app">
+
+<!-- SIDEBAR -->
+<aside id="sidebar">
+<div class="sb-logo">
+  <div class="sb-mark">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+    </svg>
+  </div>
+
+  <span class="sb-brand">Thread<strong>CRM</strong></span>
+</div>
+
+<button id="sb-toggle" class="sb-toggle-modern" title="Collapse Sidebar">
+  <svg viewBox="0 0 24 24">
+    <path d="M15 6l-6 6 6 6"/>
+  </svg>
+</button>
+
+  <nav class="sb-nav">
+    <div class="sb-section-label">Overview</div>
+    <div class="ni" data-view="dashboard" onclick="navigate('dashboard')" title="Dashboard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+      <span>Dashboard</span>
+    </div>
+
+    <div class="sb-section-label">Threads</div>
+   <div class="ni" onclick="navTo({})" title="All Threads">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+      <span>All Threads</span>
+      <span class="nb" id="nb-all">0</span>
+    </div>
+    <div class="ni" data-view="radar" onclick="navigate('radar')" title="Action Radar">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <circle cx="12" cy="12" r="8"></circle>
+    <circle cx="12" cy="12" r="3"></circle>
+    <path d="M12 2v4M12 18v4M2 12h4M18 12h4"></path>
+  </svg>
+  <span>Action Radar</span>
+  <span class="nb" id="nb-radar">0</span>
+</div>
+    <div class="ni ni-manage" onclick="openForumManager()" title="Manage Forums">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      <span>Manage Forums</span>
+    </div>
+    <!-- Dynamic forum list rendered by forums.js -->
+    <div id="sb-forums"></div>
+  </nav>
+
+  <div class="sb-footer">
+    <div class="tgt" onclick="toggleTheme()" title="Toggle Theme">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <span>Toggle Theme</span>
+      <div class="tp"></div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main id="main">
+  <header id="topbar">
+    <div class="tb-left">
+      <div class="tb-title" id="tbt">Dashboard</div>
+    </div>
+    <div class="tb-search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input type="text" id="gs" placeholder="Search threads, owners, tags…" oninput="onSearch(this.value)"/>
+    </div>
+    <div class="tb-actions">
+      <button class="btn btn-ghost" onclick="exportCSV()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export
+      </button>
+      <button class="btn btn-primary" onclick="openModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        New Thread
+      </button>
+    </div>
+  </header>
+
+  <div id="content">
+
+<!-- ═══════════ DASHBOARD ═══════════ -->
+<div class="view active dash-modern-v2" id="view-dashboard">
+
+  <div class="dash-v2-top">
+    <div>
+      <h1 class="page-title">Dashboard</h1>
+      <div class="page-sub" id="dash-date"></div>
+    </div>
+
+    <div class="dash-v2-actions">
+      <div class="dash-week-pill">This Week</div>
+    </div>
+  </div>
+
+  <div class="dash-v2-shell">
+
+    <div class="dash-v2-main">
+<!-- Focus Areas Overview -->
+<div id="action-radar"></div>
+
+<!-- Daily Focus -->
+<section class="dash-daily-focus">
+  <div class="dash-daily-focus-head">
+    <div>
+      <div class="dash-daily-focus-title">
+        <span class="dash-daily-focus-icon">☆</span>
+        Daily Focus
+      </div>
+
+      <div class="dash-daily-focus-sub">
+        Key discussions requiring your attention
+      </div>
+    </div>
+
+    <button
+      type="button"
+      class="dash-daily-focus-link"
+      onclick="navigate('radar')"
+    >
+      View all →
+    </button>
+  </div>
+
+  <div class="daily-focus-table-head">
+    <span>Discussion Item</span>
+    <span>Focus Area</span>
+    <span>Next Review</span>
+    <span>Status</span>
+    <span></span>
+  </div>
+
+  <div id="daily-focus-list"></div>
+</section>
+
+<!-- KPI Cards -->
+<div class="dash-kpi-grid">
+        <div class="dash-kpi kpi-open" onclick="navTo({status:'Open'})">
+          <div class="kpi-label">Open Threads</div>
+          <div class="kpi-value" id="s-opn">0</div>
+          <div class="kpi-sub">Currently open</div>
+          <div class="kpi-icon">
+              <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          </div>
+        </div>
+
+        <div class="dash-kpi kpi-overdue" onclick="navTo({overdue:true})">
+          <div class="kpi-label">Overdue Threads</div>
+          <div class="kpi-value" id="s-ovd">0</div>
+          <div class="kpi-sub">Needs attention</div>
+          <div class="kpi-icon">
+            <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+        </div>
+
+        <div class="dash-kpi kpi-action" onclick="navTo({actionRequired:true})">
+          <div class="kpi-label">Action Required</div>
+          <div class="kpi-value" id="s-act">0</div>
+          <div class="kpi-sub">High priority open</div>
+          <div class="kpi-icon">
+            <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+        </div>
+
+        <div class="dash-kpi kpi-closed" onclick="navTo({status:'Closed'})">
+          <div class="kpi-label">Closed Threads</div>
+          <div class="kpi-value" id="s-cls">0</div>
+          <div class="kpi-sub">Completed</div>
+          <div class="kpi-icon">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hidden counters required by current dashboard.js until Patch 2 -->
+      <div style="display:none">
+        <span id="s-tot">0</span>
+        <span id="s-prg">0</span>
+        <span id="s-pnd">0</span>
+        <span id="s-mne">0</span>
+        <span id="s-ndd">0</span>
+      </div>
+
+      <!-- Analytics Row -->
+      <div class="dash-v2-grid-3">
+        <div class="dash-card">
+          <div class="dash-card-title">Threads by Forum</div>
+          <div id="forum-cards"></div>
+        </div>
+
+        <div class="dash-card">
+          <div class="dash-card-title">Threads by Owner (Workload)</div>
+          <div id="by-person"></div>
+        </div>
+
+        <div class="dash-card">
+          <div class="dash-card-title">Risk Breakdown</div>
+          <div id="aging"></div>
+        </div>
+      </div>
+
+      <!-- Recent Activity / Recent Threads kept for current JS compatibility -->
+      <div class="dash-v2-grid-2 dash-v2-lower">
+        <div class="dash-card">
+          <div class="dash-card-title">Recent Activity</div>
+          <div id="activity"></div>
+        </div>
+
+        <div class="dash-card">
+          <div class="dash-card-title">Recent Threads</div>
+          <div id="recent"></div>
+        </div>
+      </div>
+
+    </div>
+
+
+
+  </div>
+</div>
+    <!-- ═══════════ Radar Page View ═══════════ -->
+<!-- ═══════════ ACTION RADAR VIEW ═══════════ -->
+<div class="view" id="view-radar">
+  <div class="page-hd">
+    <div>
+      <h1 class="page-title" id="radar-page-title">Action Radar</h1>
+      <div class="page-sub" id="radar-sub">
+        Focus areas requiring daily discussion or follow-up
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="btn btn-primary" id="radar-primary-action" onclick="openRadarThreadModal()">
+        + New Radar Thread
+      </button>
+    </div>
+  </div>
+
+  <div id="radar-workspace-list"></div>
+</div>
+    <!-- ═══════════ THREADS LIST ═══════════ -->
+    <div class="view" id="view-threads">
+      <div class="page-hd">
+        <div>
+          <h1 class="page-title" id="tv-title">All Threads</h1>
+          <div class="page-sub" id="tv-sub"></div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="btn btn-ghost" id="import-btn" style="display:none" onclick="openImportModal()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Import Excel
+          </button>
+          <button class="btn btn-ghost" onclick="clearFilters()" id="cf-btn" style="display:none">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            Clear Filters
+          </button>
+        </div>
+      </div>
+
+      <!-- Filter bar -->
+<div class="fbar threads-toolbar">
+
+  <label class="select-all-control">
+    <input type="checkbox" id="toolbar-chk-all" onclick="toggleSelectAllFromToolbar(this)" />
+    <span>Select All</span>
+  </label>
+
+  <select class="fsel" id="f-st" onchange="applyFilters()">
+    <option value="">All Status</option>
+    <option value="Open">Open</option>
+    <option value="In Progress">In Progress</option>
+    <option value="Closed">Closed</option>
+  </select>
+
+  <select class="fsel" id="f-pr" onchange="applyFilters()">
+    <option value="">All Priority</option>
+    <option value="Critical">Critical</option>
+    <option value="High">High</option>
+    <option value="Medium">Medium</option>
+    <option value="Low">Low</option>
+  </select>
+
+  <select class="fsel" id="f-fo" onchange="applyFilters()">
+    <option value="">All Forums</option>
+    <option value="1PM">1PM Meeting</option>
+    <option value="SoS">SoS Meeting</option>
+    <option value="Daily Meeting">Daily Standup</option>
+    <option value="Other">Other</option>
+  </select>
+
+  <select class="fsel" id="f-pe" onchange="applyFilters()">
+    <option value="">All Owners</option>
+  </select>
+
+  <select class="fsel" id="f-tg" onchange="applyFilters()">
+    <option value="">All Tags</option>
+    <option value="Client">Client</option>
+    <option value="Internal">Internal</option>
+    <option value="Urgent">Urgent</option>
+    <option value="Escalation">Escalation</option>
+  </select>
+
+  <div class="col-picker-wrap" id="col-picker-wrap">
+    <button class="btn btn-ghost sort-btn" onclick="toggleColPicker(event)">
+      ⚙ Columns
+    </button>
+    <div class="col-picker" id="col-picker" style="display:none"></div>
+  </div>
+
+  <div class="toolbar-spacer"></div>
+
+
+</div>
+
+<div id="active-filter-chips" class="active-filter-chips"></div>
+
+      <!-- Table -->
+      <!-- Bulk action bar — shown when rows selected -->
+<div class="bulk-bar bulk-bar-compact" id="bulk-bar" style="display:none">
+  <span class="bulk-count" id="bulk-count">0 selected</span>
+
+  <button class="btn btn-ghost" onclick="clearBulkSelection()">
+    Clear
+  </button>
+
+  <button class="btn btn-ghost btn-danger" onclick="deleteBulkSelected()">
+    Delete
+  </button>
+</div>
+
+<div class="tbl-wrap">
+  <div class="tbl-scroll">
+        <table class="tbl">
+<thead>
+<tr>
+<th class="th-chk"></th>
+  <th class="th-p th-sortable" data-col="priority" data-sort="priority" onclick="toggleHeaderSort('priority')">
+    Priority <span class="sort-ind"></span>
+  </th>
+
+<th class="th-title th-sortable" data-sort="title" onclick="toggleHeaderSort('title')">
+  Title <span class="sort-ind"></span>
+</th>
+
+<th class="th-status th-sortable" data-col="status" data-sort="status" onclick="toggleHeaderSort('status')">
+  Status <span class="sort-ind"></span>
+</th>
+
+<th class="th-owner th-sortable" data-col="owner" data-sort="owner" onclick="toggleHeaderSort('owner')">
+  Owner <span class="sort-ind"></span>
+</th>
+
+<th class="th-forum th-sortable" data-col="forum" data-sort="forum" onclick="toggleHeaderSort('forum')">
+  Forum <span class="sort-ind"></span>
+</th>
+
+<th class="th-date th-sortable" data-col="duedate" data-sort="duedate" onclick="toggleHeaderSort('duedate')">
+  Due Date <span class="sort-ind"></span>
+</th>
+
+<th class="th-age th-sortable" data-col="ageing" data-sort="ageing" onclick="toggleHeaderSort('ageing')">
+  Ageing <span class="sort-ind"></span>
+</th>
+
+<th class="th-cmt th-sortable" data-col="comments" data-sort="comments" onclick="toggleHeaderSort('comments')">
+  Comments <span class="sort-ind"></span>
+</th>
+  <th class="th-cat th-sortable" data-col="category" style="display:none">Category</th>
+  <th class="th-sub th-sortable" data-col="subcat" style="display:none">Sub Category</th>
+  <th class="th-part th-sortable" data-col="participants" style="display:none">Participants</th>
+
+<th class="th-crd th-sortable" data-col="created" data-sort="created" onclick="toggleHeaderSort('created')" style="display:none">
+  Created <span class="sort-ind"></span>
+</th>
+
+  <th class="th-act"></th>
+</tr>
+          </thead>
+          <tbody id="threads-list"></tbody>
+        </table>
+      </div>
+    </div>
+    </div>
+
+    <!-- ═══════════ THREAD DETAIL ═══════════ -->
+    <div class="view" id="view-detail">
+      <div class="dhd">
+        <button class="bkb" onclick="goBack()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+          Back to Threads
+        </button>
+        <div class="dtw">
+          <div class="dtt" id="d-title"></div>
+          <div class="dbg" id="d-badges"></div>
+        </div>
+        <div class="detail-actions">
+          <button class="btn btn-ghost" onclick="editCurrent()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            Edit
+          </button>
+          <button class="btn btn-ghost btn-danger" onclick="deleteCurrent()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+            Delete
+          </button>
+        </div>
+      </div>
+
+      <div class="dgr">
+        <div class="dm">
+          <div class="ic">
+            <div class="ict">Thread Details</div>
+            <div class="ifs" id="d-fields"></div>
+          </div>
+          <div class="nc">
+            <div class="ict">Notes &amp; Description</div>
+            <div class="nt" id="d-notes"></div>
+          </div>
+        </div>
+        <div class="ds">
+          <div class="ic">
+            <div class="ict">Conversation History</div>
+            <div class="tln" id="timeline"></div>
+          </div>
+          <div class="acc">
+            <div class="acc-hd">Add to Thread</div>
+            <div class="ctt" id="ct-tabs">
+              <button class="ct active" data-t="Comment" onclick="selCT(this)">Comment</button>
+              <button class="ct" data-t="Decision" onclick="selCT(this)">Decision</button>
+              <button class="ct" data-t="Action" onclick="selCT(this)">Action</button>
+              <button class="ct" data-t="Update" onclick="selCT(this)">Update</button>
+            </div>
+            <div class="cr">
+              <input type="text" id="ca" class="cr-input" placeholder="Your name"/>
+              <textarea id="ct2" class="cr-textarea" placeholder="Write here…" rows="1" onkeydown="cmtKey(event)"></textarea>
+              <button class="btn btn-primary cr-send" onclick="addComment()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</main>
+</div><!-- /app -->
+
+<!-- MODAL -->
+<div class="mo" id="mo" onclick="moClick(event)">
+  <div class="md">
+    <div class="mh">
+      <div class="mt" id="m-title">New Thread</div>
+      <button class="mc" onclick="closeModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+<div class="mb">
+  <div class="fg2">
+    <div class="fl fu">
+      <label class="ll">Thread Title <span class="rq">*</span></label>
+      <input type="text" class="fi" id="f-title" placeholder="Enter thread title..." />
+    </div>
+
+    <div class="fl">
+      <label class="ll">Forum</label>
+      <select class="fss" id="f-forum">
+        <option value="1PM">1PM Meeting</option>
+        <option value="SoS">SoS Meeting</option>
+        <option value="Daily">Daily Standup</option>
+        <option value="BAE">BAE Tracker</option>
+        <option value="UIUX">UI/UX Tracker</option>
+        <option value="Archive">Archive</option>
+      </select>
+    </div>
+
+    <div class="fl">
+      <label class="ll">Responsible</label>
+      <input type="text" class="fi" id="f-owner" placeholder="Responsible person..." />
+    </div>
+
+    <div class="fl">
+      <label class="ll">Priority</label>
+      <select class="fss" id="f-pri">
+        <option value="Low">Low</option>
+        <option value="Medium" selected>Medium</option>
+        <option value="High">High</option>
+        <option value="Critical">Critical</option>
+      </select>
+    </div>
+
+    <div class="fl">
+      <label class="ll">Target Date</label>
+      <input type="date" class="fi" id="f-date" />
+    </div>
+
+    <div class="fl">
+      <label class="ll">Status</label>
+      <select class="fss" id="f-status">
+        <option value="Open" selected>Open</option>
+        <option value="Action Required">Action Required</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Closed">Closed</option>
+      </select>
+    </div>
+
+    <div class="fl">
+      <label class="ll">Category</label>
+      <input type="text" class="fi" id="f-cat" placeholder="Category..." />
+    </div>
+
+    <div class="fl">
+      <label class="ll">Sub Category</label>
+      <input type="text" class="fi" id="f-sub" placeholder="Sub category..." />
+    </div>
+
+    <div class="fl fu">
+      <label class="ll">Participants</label>
+      <input type="text" class="fi" id="f-part" placeholder="Participants..." />
+    </div>
+
+    <div class="fl fu">
+      <label class="ll">Notes</label>
+      <textarea class="fta" id="f-notes" rows="3" placeholder="Add notes or description..."></textarea>
+    </div>
+
+    <div class="fl fu" id="f-tags">
+      <label class="ll">Tags</label>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <label><input type="checkbox" value="BAE"> BAE</label>
+        <label><input type="checkbox" value="Nexteer"> Nexteer</label>
+        <label><input type="checkbox" value="Demo Site"> Demo Site</label>
+        <label><input type="checkbox" value="Urgent"> Urgent</label>
+        <label><input type="checkbox" value="Follow-up"> Follow-up</label>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="mf">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveThread()" id="m-save">Create Thread</button>
+    </div>
+  </div>
+</div>
+
+<!-- IMPORT MODAL -->
+<div class="mo" id="mo-import" onclick="if(event.target===this)closeImportModal()">
+  <div class="md" style="width:600px;max-height:85vh">
+    <div class="mh">
+      <div class="mt" id="imp-title">Import Excel — <span id="imp-forum-label"></span></div>
+      <button class="mc" onclick="closeImportModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="mb" id="imp-body">
+      <!-- Steps rendered by JS -->
+    </div>
+    <div class="mf" id="imp-footer">
+      <button class="btn btn-ghost" onclick="closeImportModal()">Cancel</button>
+      <button class="btn btn-primary" id="imp-action-btn" onclick="importNextStep()">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- FORUM MANAGER MODAL -->
+<div class="mo" id="mo-forums" onclick="if(event.target===this)closeForumManager()">
+  <div class="md" style="width:480px">
+    <div class="mh">
+      <div class="mt">Manage Forums</div>
+      <button class="mc" onclick="closeForumManager()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="mb">
+      <div class="ict" style="margin-bottom:10px">Existing Forums</div>
+      <div id="fm-list"></div>
+      <div class="ict" style="margin-top:18px;margin-bottom:10px">Add New Forum</div>
+      <div class="fm-add-row">
+        <input type="color" id="fm-new-color" value="#6c63ff" class="fm-color"/>
+        <input type="text"  id="fm-new-name"  class="fi" placeholder="Forum name e.g. UI/UX Tracker"
+               onkeydown="if(event.key==='Enter')addForum()"/>
+        <button class="btn btn-primary" onclick="addForum()">Add</button>
+      </div>
+    </div>
+    <div class="mf">
+      <button class="btn btn-ghost" onclick="closeForumManager()">Close</button>
+    </div>
+  </div>
+</div>
+
+<div class="mo" id="mo-radar-note" onclick="if(event.target===this)closeRadarNoteModal()">
+  <div class="md" style="width:560px">
+    <div class="mh">
+      <div class="mt">Add Radar Item</div>
+      <button class="mc" onclick="closeRadarNoteModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="mb">
+      <div class="fg2">
+        <div class="fl fu">
+          <label class="ll">Radar Title <span class="rq">*</span></label>
+          <input type="text" class="fi" id="radar-note-title" placeholder="Enter radar note title..." />
+        </div>
+
+        <div class="fl">
+          <label class="ll">Owner</label>
+          <input type="text" class="fi" id="radar-note-owner" placeholder="Owner name..." />
+        </div>
+
+        <div class="fl">
+          <label class="ll">Priority</label>
+          <select class="fss" id="radar-note-priority">
+            <option value="Low">Low</option>
+            <option value="Medium" selected>Medium</option>
+            <option value="High">High</option>
+            <option value="Critical">Critical</option>
+          </select>
+        </div>
+
+        <div class="fl">
+          <label class="ll">Follow-up Date</label>
+          <input type="date" class="fi" id="radar-note-followup" />
+        </div>
+
+        <div class="fl fu">
+          <label class="ll">Notes</label>
+          <textarea class="fta" id="radar-note-notes" rows="3" placeholder="Add context or follow-up details..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="mf">
+      <button class="btn btn-ghost" onclick="closeRadarNoteModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveRadarNote()">Add to Radar</button>
+    </div>
+  </div>
+</div>
+<!-- ADD RADAR THREAD MODAL -->
+<div class="mo" id="mo-radar-thread" onclick="if(event.target===this)closeRadarThreadModal()">
+  <div class="md" style="width:560px">
+    <div class="mh">
+      <div class="mt">New Radar Thread</div>
+      <button class="mc" onclick="closeRadarThreadModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="mb">
+      <div class="fg2">
+        <div class="fl fu">
+          <label class="ll">Radar Thread Name <span class="rq">*</span></label>
+          <input type="text" class="fi" id="radar-thread-title" placeholder="Example: BAE, Nexteer, Demo Site..." />
+        </div>
+
+        <div class="fl fu">
+          <label class="ll">Description</label>
+          <textarea class="fta" id="radar-thread-desc" rows="3" placeholder="Short purpose of this radar thread..."></textarea>
+        </div>
+
+        <div class="fl">
+          <label class="ll">Owner</label>
+          <input type="text" class="fi" id="radar-thread-owner" placeholder="Owner name..." />
+        </div>
+
+        <div class="fl">
+          <label class="ll">Start Date</label>
+          <input type="date" class="fi" id="radar-thread-start" />
+        </div>
+
+        <div class="fl">
+          <label class="ll">Next Review Date</label>
+          <input type="date" class="fi" id="radar-thread-review" />
+        </div>
+
+        <div class="fl">
+          <label class="ll">Priority</label>
+          <select class="fss" id="radar-thread-priority">
+            <option value="Low">Low</option>
+            <option value="Medium" selected>Medium</option>
+            <option value="High">High</option>
+            <option value="Critical">Critical</option>
+          </select>
+        </div>
+
+        <div class="fl">
+          <label class="ll">Status</label>
+          <select class="fss" id="radar-thread-status">
+            <option value="Active" selected>Active</option>
+            <option value="Needs Attention">Needs Attention</option>
+            <option value="Critical">Critical</option>
+            <option value="Closed">Closed</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="mf">
+      <button class="btn btn-ghost" onclick="closeRadarThreadModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveRadarThread()">Create Radar Thread</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ADD DISCUSSION ITEM MODAL -->
+<div class="mo" id="mo-radar-item" onclick="if(event.target===this)closeRadarItemModal()">
+  <div class="md" style="width:720px">
+    <div class="mh">
+      <div class="mt">Add Discussion Item</div>
+      <button class="mc" onclick="closeRadarItemModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="mb">
+      <input type="hidden" id="radar-item-thread-id" />
+
+      <div class="fg2">
+        <div class="fl fu">
+          <label class="ll">Title <span class="rq">*</span></label>
+          <input type="text" class="fi" id="radar-item-title" placeholder="Example: UAT Cycle-2 timeline clarification" />
+        </div>
+
+        <div class="fl fu">
+          <label class="ll">Today's Discussion Point</label>
+          <textarea class="fta" id="radar-item-point" rows="3" placeholder="What exactly needs to be discussed?"></textarea>
+        </div>
+
+        <div class="fl">
+          <label class="ll">Last Discussed</label>
+          <input type="date" class="fi" id="radar-item-discussed" />
+        </div>
+
+        <div class="fl">
+          <label class="ll">Follow-up Date</label>
+          <input type="date" class="fi" id="radar-item-followup" />
+        </div>
+
+        <div class="fl fu">
+          <label class="ll">Next Step</label>
+          <input type="text" class="fi" id="radar-item-nextstep" placeholder="Example: Confirm with Product team" />
+        </div>
+
+        <div class="fl">
+          <label class="ll">Status</label>
+          <select class="fss" id="radar-item-status">
+            <option value="Pending Discussion" selected>Pending Discussion</option>
+            <option value="Carried Forward">Carried Forward</option>
+            <option value="Action Required">Action Required</option>
+            <option value="Action Created">Action Created</option>
+            <option value="Discussed">Discussed</option>
+            <option value="Closed">Closed</option>
+          </select>
+        </div>
+
+        <div class="fl">
+          <label class="ll">Owner</label>
+          <input type="text" class="fi" id="radar-item-owner" placeholder="Owner name..." />
+        </div>
+
+        <div class="fl">
+          <label class="ll">Source</label>
+          <select class="fss" id="radar-item-source">
+            <option value="Mail">Mail</option>
+            <option value="Chat">Chat</option>
+            <option value="Stakeholder">Stakeholder</option>
+            <option value="Internal">Internal</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="fl">
+          <label class="ll">Forum</label>
+          <select class="fss" id="radar-item-forum">
+            <option value="1PM Meeting">1PM Meeting</option>
+            <option value="SoS Meeting">SoS Meeting</option>
+            <option value="Daily Standup">Daily Standup</option>
+            <option value="BAE Tracker">BAE Tracker</option>
+            <option value="UI/UX Tracker">UI/UX Tracker</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="mf">
+      <button class="btn btn-ghost" onclick="closeRadarItemModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveRadarDiscussionItem()">Add Item</button>
+    </div>
+  </div>
+</div>
+<div class="tct" id="tct"></div>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/firebase-db.js"></script>
+<script src="js/state.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/navigation.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/threads.js"></script>
+<script src="js/radar.js"></script>
+<script src="js/detail.js"></script>
+<script src="js/modal.js"></script>
+<script src="js/export.js"></script>
+<script src="js/forums.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

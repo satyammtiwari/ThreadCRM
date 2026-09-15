@@ -1,0 +1,127 @@
+/* modal.css - extracted from original style.css. Do not edit style.css after migration. */
+
+
+/* ===== Original style.css lines 801-840 ===== */
+
+/* ═══════════════════════════════════════
+   MODAL
+═══════════════════════════════════════ */
+.mo { position: fixed; inset: 0; background: rgba(0,0,0,.65); backdrop-filter: blur(4px); z-index: 100; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity var(--tr); }
+.mo.open { opacity: 1; pointer-events: all; }
+.md { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-xl); width: 640px; max-width: calc(100vw - 32px); max-height: calc(100vh - 48px); overflow: hidden; display: flex; flex-direction: column; transform: scale(.96) translateY(8px); transition: transform var(--tr); box-shadow: 0 24px 60px rgba(0,0,0,.4); }
+.mo.open .md { transform: scale(1) translateY(0); }
+.mh { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--border); }
+.mt { font-size: 15px; font-weight: 700; }
+.mc { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: var(--r-sm); cursor: pointer; color: var(--t3); transition: all var(--tr); }
+.mc:hover { background: var(--raised); color: var(--t1); }
+.mc svg { width: 16px; height: 16px; }
+.mb { flex: 1; overflow-y: auto; padding: 18px 20px; }
+.mf { display: flex; align-items: center; justify-content: flex-end; gap: 8px; padding: 12px 20px; border-top: 1px solid var(--border); }
+
+.fg2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.fl { display: flex; flex-direction: column; gap: 4px; }
+.fu { grid-column: 1 / -1; }
+.ll { font-size: 11.5px; font-weight: 600; color: var(--t2); }
+.rq { color: var(--er); }
+.fi, .fss, .fta { padding: 8px 10px; background: var(--raised); border: 1px solid var(--border); border-radius: var(--r-md); color: var(--t1); font-size: 12.5px; font-family: var(--font); outline: none; transition: border-color var(--tr); width: 100%; }
+.fi:focus, .fss:focus, .fta:focus { border-color: var(--ac); }
+.fss { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%238b949e' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; padding-right: 28px; cursor: pointer; }
+.fta { resize: vertical; min-height: 72px; line-height: 1.5; }
+.tch { display: flex; gap: 7px; flex-wrap: wrap; }
+.tch label { display: flex; align-items: center; gap: 5px; cursor: pointer; }
+.tch input { width: 12px; height: 12px; accent-color: var(--ac); cursor: pointer; }
+
+/* ═══════════════════════════════════════
+   TOAST
+═══════════════════════════════════════ */
+.tct { position: fixed; bottom: 20px; right: 20px; z-index: 999; display: flex; flex-direction: column; gap: 6px; }
+.tst { background: var(--overlay); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 10px 14px; font-size: 12.5px; font-weight: 500; display: flex; align-items: center; gap: 8px; box-shadow: 0 8px 24px rgba(0,0,0,.3); animation: slideIn .25s ease; min-width: 220px; }
+.tst.success { border-left: 3px solid var(--ok); }
+.tst.error   { border-left: 3px solid var(--er); }
+.tst.info    { border-left: 3px solid var(--ac); }
+.tsti { width: 15px; height: 15px; flex-shrink: 0; }
+@keyframes slideIn { from { transform:translateX(16px); opacity:0; } to { transform:translateX(0); opacity:1; } }
+@keyframes to2     { from { transform:translateX(0); opacity:1; } to { transform:translateX(16px); opacity:0; } }
+
+
+
+/* ===== Original style.css lines 915-992 ===== */
+
+/* ═══════════════════════════════════════
+   FORUM MANAGER
+═══════════════════════════════════════ */
+/* Manage Forums sidebar item */
+.ni-manage { color: var(--sb-t3); font-size: 12px; }
+.ni-manage:hover { color: var(--sb-t1); }
+
+/* Color dot in sidebar forum list */
+.forum-dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Forum manager rows */
+.fm-row {
+  display: flex; align-items: center; gap: 9px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border-s);
+}
+.fm-row:last-child { border-bottom: none; }
+.fm-color {
+  width: 30px; height: 30px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--border);
+  cursor: pointer; padding: 2px;
+  background: transparent; flex-shrink: 0;
+}
+.fm-name { flex: 1; }
+
+/* Add new forum row */
+.fm-add-row {
+  display: flex; align-items: center; gap: 9px;
+  padding-top: 4px;
+}
+.fm-add-row .fi { flex: 1; }
+
+/* ═══════════════════════════════════════
+   IMPORT MODAL
+═══════════════════════════════════════ */
+.imp-upload-area {
+  border: 2px dashed var(--border);
+  border-radius: var(--r-lg);
+  padding: 32px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color var(--tr), background var(--tr);
+}
+.imp-upload-area:hover {
+  border-color: var(--ac);
+  background: var(--ac-bg);
+}
+
+.imp-map-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 14px;
+  align-items: center;
+}
+.imp-map-hd {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  color: var(--t3);
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border);
+}
+.imp-map-col {
+  font-size: 12.5px;
+  color: var(--t1);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
