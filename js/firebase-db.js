@@ -122,3 +122,40 @@ async function saveRadarThreadsToFirestore(radarThreads){
     return false;
   }
 }
+
+/* FIRESTORE DATABASE ADAPTER - FORUMS */
+
+const FORUMS_COLLECTION = 'forums';
+const FORUMS_DOC_ID = 'master';
+
+async function loadForumsFromFirestore(){
+  try{
+    const doc = await db.collection(FORUMS_COLLECTION).doc(FORUMS_DOC_ID).get();
+
+    if(!doc.exists){
+      return null;
+    }
+
+    const data = doc.data() || {};
+    return Array.isArray(data.items) ? data.items : null;
+  }catch(err){
+    console.error('Firestore loadForumsFromFirestore failed:', err);
+    return null;
+  }
+}
+
+async function saveForumsToFirestore(forums){
+  try{
+    const safeForums = Array.isArray(forums) ? forums : [];
+
+    await db.collection(FORUMS_COLLECTION).doc(FORUMS_DOC_ID).set({
+      items: safeForums,
+      updatedAtFirebase: Date.now()
+    });
+
+    return true;
+  }catch(err){
+    console.error('Firestore saveForumsToFirestore failed:', err);
+    return false;
+  }
+}

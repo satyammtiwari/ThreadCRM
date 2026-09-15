@@ -37,13 +37,36 @@ function save(){
   }
 }
 
-function loadForums(){
+async function loadForums(){
   try{
+    if(typeof loadForumsFromFirestore === 'function'){
+      const firestoreForums = await loadForumsFromFirestore();
+
+      if(Array.isArray(firestoreForums) && firestoreForums.length){
+        FORUMS = firestoreForums;
+        localStorage.setItem('tcrm_forums',JSON.stringify(FORUMS));
+        return;
+      }
+    }
+
     const r=localStorage.getItem('tcrm_forums');
-    if(r)FORUMS=JSON.parse(r);
-  }catch(e){}
+    if(r){
+      FORUMS=JSON.parse(r);
+
+      if(Array.isArray(FORUMS) && FORUMS.length && typeof saveForumsToFirestore === 'function'){
+        await saveForumsToFirestore(FORUMS);
+        console.log('Local forums migrated to Firestore:',FORUMS.length);
+      }
+    }
+  }catch(e){
+    console.error('loadForums failed:',e);
+  }
 }
 
 function saveForums(){
   localStorage.setItem('tcrm_forums',JSON.stringify(FORUMS));
+
+  if(typeof saveForumsToFirestore === 'function'){
+    saveForumsToFirestore(FORUMS);
+  }
 }

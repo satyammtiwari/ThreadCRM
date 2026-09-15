@@ -5,7 +5,7 @@
   document.documentElement.setAttribute('data-theme',th);
 
   await load();
-  loadForums();
+  await loadForums();
   if(typeof initRadarThreadsFromFirestore==='function'){
   await initRadarThreadsFromFirestore();
 }
