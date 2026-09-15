@@ -5,9 +5,16 @@ let THREADCRM_APP_STARTED = false;
 function showLoginScreen(){
   const loginScreen = document.getElementById('login-screen');
   const appShell = document.getElementById('app-shell');
+  const emailInput = document.getElementById('login-email');
+  const passwordInput = document.getElementById('login-password');
 
   if(loginScreen) loginScreen.style.display = 'flex';
   if(appShell) appShell.style.display = 'none';
+
+  if(emailInput) emailInput.value = '';
+  if(passwordInput) passwordInput.value = '';
+
+  showLoginError('');
 }
 
 function showAppScreen(){
